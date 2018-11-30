@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14315.18" systemVersion="17G65" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Costs" representedClassName="Costs" syncable="YES">
+        <attribute name="image_name" attributeType="String" syncable="YES"/>
+        <attribute name="index" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <relationship name="new_costs" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="New_cost" inverseName="costs" inverseEntity="New_cost" syncable="YES"/>
+    </entity>
+    <entity name="Incomes" representedClassName="Incomes" syncable="YES">
+        <attribute name="image_name" attributeType="String" syncable="YES"/>
+        <attribute name="index" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <relationship name="new_incomes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="New_income" inverseName="incomes" inverseEntity="New_income" syncable="YES"/>
+    </entity>
+    <entity name="Invoice" representedClassName="Invoice" syncable="YES">
+        <attribute name="index" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="value" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <entity name="New_cost" representedClassName="New_cost" syncable="YES">
+        <attribute name="date" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="value" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="costs" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Costs" inverseName="new_costs" inverseEntity="Costs" syncable="YES"/>
+    </entity>
+    <entity name="New_income" representedClassName="New_income" syncable="YES">
+        <attribute name="date" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="value" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="incomes" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Incomes" inverseName="new_incomes" inverseEntity="Incomes" syncable="YES"/>
+    </entity>
+    <entity name="Plans" representedClassName="Plans" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="info" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="type" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="value" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Costs" positionX="-79.66015625" positionY="62.90234375" width="128" height="105"/>
+        <element name="Incomes" positionX="-81.19140625" positionY="-93.42578125" width="128" height="105"/>
+        <element name="Invoice" positionX="-75.80078125" positionY="229.171875" width="128" height="90"/>
+        <element name="New_cost" positionX="249" positionY="62.234375" width="128" height="90"/>
+        <element name="New_income" positionX="243.7265625" positionY="-93.8125" width="128" height="90"/>
+        <element name="Plans" positionX="-75.4453125" positionY="374.53515625" width="128" height="120"/>
+    </elements>
+</model>
