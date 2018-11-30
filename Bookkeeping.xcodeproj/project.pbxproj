@@ -28,6 +28,7 @@
 		3F4AF7532157AF7C00DA745F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F4AF7512157AF7C00DA745F /* LaunchScreen.storyboard */; };
 		3F5BD11721A968770086EBAD /* CostsTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5BD11621A968770086EBAD /* CostsTVC.swift */; };
 		3F5BD11921A9B0FD0086EBAD /* CollectionCostsCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5BD11821A9B0FD0086EBAD /* CollectionCostsCVC.swift */; };
+		3FD6EB5A21B156420028566F /* CreateCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD6EB5921B156420028566F /* CreateCategory.swift */; };
 		49330B21A6454BD0E4B982C7 /* Pods_Bookkeeping.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AC6942FB206A22F71A29D1C /* Pods_Bookkeeping.framework */; };
 /* End PBXBuildFile section */
 
@@ -55,6 +56,7 @@
 		3F4AF7542157AF7C00DA745F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3F5BD11621A968770086EBAD /* CostsTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostsTVC.swift; sourceTree = "<group>"; };
 		3F5BD11821A9B0FD0086EBAD /* CollectionCostsCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionCostsCVC.swift; sourceTree = "<group>"; };
+		3FD6EB5921B156420028566F /* CreateCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCategory.swift; sourceTree = "<group>"; };
 		9AC6942FB206A22F71A29D1C /* Pods_Bookkeeping.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bookkeeping.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6692EE666F420111470B6C4 /* Pods-Bookkeeping.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bookkeeping.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bookkeeping/Pods-Bookkeeping.release.xcconfig"; sourceTree = "<group>"; };
 		E36F7FB85E6B9995A77D7FC5 /* Pods-Bookkeeping.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bookkeeping.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bookkeeping/Pods-Bookkeeping.debug.xcconfig"; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 				3F2FD1052160E98100539CDB /* New_cost+CoreDataProperties.swift */,
 				3F4AF74C2157AF7B00DA745F /* Bookkeeping.xcdatamodeld */,
 				3F2FD0F92160E91200539CDB /* CoreDataStack.swift */,
+				3FD6EB5921B156420028566F /* CreateCategory.swift */,
 			);
 			path = "Core Data";
 			sourceTree = "<group>";
@@ -312,6 +315,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FD6EB5A21B156420028566F /* CreateCategory.swift in Sources */,
 				3F2FD10B2160E98100539CDB /* Incomes+CoreDataProperties.swift in Sources */,
 				3F2FD11A2160F98E00539CDB /* Invoice+CoreDataClass.swift in Sources */,
 				3F2FD10D2160E98100539CDB /* New_income+CoreDataProperties.swift in Sources */,
@@ -479,6 +483,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = U7KZN4LFF2;
 				INFOPLIST_FILE = Bookkeeping/Info.plist;
+				INSTALL_PATH = /Users/name/Desktop/Xcode/GitHub/Bookkeeping/App/;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -499,6 +504,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = U7KZN4LFF2;
 				INFOPLIST_FILE = Bookkeeping/Info.plist;
+				INSTALL_PATH = /Users/name/Desktop/Xcode/GitHub/Bookkeeping/App/;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

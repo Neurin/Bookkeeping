@@ -26,10 +26,17 @@ class CostsVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPi
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        delegate()
+        doneButtonToolBar()
+        
         // узнать как оновлять viewDidLoad при открытии
+        initFetchRequestInvoice()
+        initFetchRequestNewCosts()
+        initFetchRequestCollectionCosts()
         
         costValueTF.keyboardType = UIKeyboardType.numberPad
         choiceInvoiceTF.inputView = pikerView
+        
         
     }
     
@@ -37,8 +44,8 @@ class CostsVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPi
     func delegate() {
         costValueTF.delegate = self
         choiceInvoiceTF.delegate = self
-        collectionCategory.delegate = self
-        collectionCategory.dataSource = self
+        self.collectionCategory.delegate = self
+        self.collectionCategory.dataSource = self
         pikerView.delegate = self
         pikerView.dataSource = self
         
@@ -105,8 +112,9 @@ class CostsVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPi
     
     //MARK: Text field
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
         view.endEditing(true)
-        doneButtonToolBar()
+        
     }
     
     func doneButtonToolBar() {
@@ -181,13 +189,16 @@ class CostsVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPi
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("Save new record in database")
+        
         if costValueTF.text == "" || choiceInvoiceTF.text == ""{
             alertController()
         } else {
             addNewCostInDataBase(index: indexPath)
-            
+            updateInvoice()
             oneInvoice()
+            costValueTF.text = ""
+            print("Save new record in database")
+            
         }
     }
     
