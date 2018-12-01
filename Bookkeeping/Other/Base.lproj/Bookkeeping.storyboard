@@ -106,6 +106,9 @@
                     <navigationItem key="navigationItem" title="Редактирование" id="wKX-lN-Lqc">
                         <barButtonItem key="leftBarButtonItem" style="plain" systemItem="cancel" id="hSl-Pz-zcf"/>
                     </navigationItem>
+                    <connections>
+                        <segue destination="D8w-cW-4a2" kind="show" identifier="NewCategoryCostsOfEditCost" id="KPq-oi-MnW"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VZJ-wR-agT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -471,4 +474,7 @@
             <point key="canvasLocation" x="4361" y="2361"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="KPq-oi-MnW"/>
+    </inferredMetricsTieBreakers>
 </document>

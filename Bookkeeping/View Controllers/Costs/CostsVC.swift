@@ -123,7 +123,7 @@ class CostsVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPi
         let toolBar = UIToolbar()
         toolBar.sizeToFit()
     
-        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.fixedSpace, target: nil, action: nil)
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
         let doneButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(doneCliked))
         
         toolBar.setItems([flexSpace, doneButton], animated: false)
@@ -156,6 +156,7 @@ class CostsVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPi
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        oneInvoice()
         return fetchDataInvoice.count
     }
     
