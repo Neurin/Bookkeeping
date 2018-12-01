@@ -17,11 +17,12 @@ class CostsVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPi
     @IBOutlet weak var sumLable: UILabel!
     @IBOutlet weak var costsTV: UITableView!
     
-    var fetchDataCosts: NSFetchedResultsController<NSFetchRequestResult>!
+    var fetchDataNewCost: NSFetchedResultsController<NSFetchRequestResult>!
     var fetchDataCollectionCosts = [Costs]()
     var fetchDataInvoice = [Invoice]()
     
     var pikerView = UIPickerView()
+    var sumValueCosts = Int32()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,11 +75,11 @@ class CostsVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPi
         let sort = NSSortDescriptor(key: "date", ascending: true)
         fetchRequest.sortDescriptors = [sort]
         
-        fetchDataCosts = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataSrack.instance.managedContext, sectionNameKeyPath: nil, cacheName: nil)
-        fetchDataCosts.delegate = self
+        fetchDataNewCost = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataSrack.instance.managedContext, sectionNameKeyPath: nil, cacheName: nil)
+        fetchDataNewCost.delegate = self
         
         do {
-            try fetchDataCosts.performFetch()
+            try fetchDataNewCost.performFetch()
         } catch {
             fatalError("Failed to init FetchRequestNewCosts: \(error)")
         }
@@ -222,16 +223,8 @@ class CostsVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPi
     }
     
     func updateInvoice() {
-        var fetchDataInvoiceLocal = [Invoice]()
-        let fetchRequest = NSFetchRequest<Invoice>(entityName: "Invoice")
-        
-        do {
-            fetchDataInvoiceLocal = try CoreDataSrack.instance.managedContext.fetch(fetchRequest)
-        } catch {
-            fatalError("Failed to init fetchDataInvoiceLocal: \(error)")
-        }
-        
-        for search in fetchDataInvoiceLocal {
+        initFetchRequestInvoice()
+        for search in fetchDataInvoice {
             if search.name == choiceInvoiceTF.text {
                 search.setValue(search.value - Int32(costValueTF.text!)!, forKey: "Invoice")
                 CoreDataSrack.instance.saveContext()
@@ -256,17 +249,16 @@ class CostsVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPi
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let rowInSection = fetchDataCosts.sections else {
-            print("Error row in section")
-            return 0
-        }
-    
+        guard let rowInSection = fetchDataNewCost.sections else { return 0 }
         return rowInSection[section].numberOfObjects
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CellCosts", for: indexPath) as! CostsTVC
-        let costData = fetchDataCosts.object(at: indexPath) as! New_cost
+        let costData = fetchDataNewCost.object(at: indexPath) as! New_cost
+        
+        sumValueCosts += costData.value
+        sumLable.text = "Потрачено сегодня: \(String(sumValueCosts))"
         
         cell.nameCategory.text = costData.costs?.name
         cell.valueCost.text = String(costData.value)
@@ -276,6 +268,23 @@ class CostsVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPi
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         print("Чуть позже delete")
+        if editingStyle == .delete {
+            initFetchRequestInvoice()
+            for search in fetchDataInvoice {
+                if search.name == choiceInvoiceTF.text {
+                    search.setValue(search.value - Int32(costValueTF.text!)!, forKey: "Invoice")
+                    CoreDataSrack.instance.saveContext()
+                }
+            }
+            
+            let costData = fetchDataNewCost.object(at: indexPath) as! New_cost
+            sumValueCosts -= costData.value
+            sumLable.text = "Потрачено сегодня: \(String(sumValueCosts))"
+            
+            let costDataDelete = fetchDataNewCost.object(at: indexPath)
+            CoreDataSrack.instance.managedContext.delete(costDataDelete as! NSManagedObject)
+            CoreDataSrack.instance.saveContext()
+        }
     }
     
     //Controller Table view
