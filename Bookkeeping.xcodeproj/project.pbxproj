@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F11123521B2ECA80003C564 /* EditCostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F11123421B2ECA80003C564 /* EditCostVC.swift */; };
 		3F18418A2161499E001F6229 /* CostsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1841892161499E001F6229 /* CostsVC.swift */; };
 		3F2FD0FA2160E91200539CDB /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2FD0F92160E91200539CDB /* CoreDataStack.swift */; };
 		3F2FD1082160E98100539CDB /* Plans+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2FD0FC2160E98100539CDB /* Plans+CoreDataClass.swift */; };
@@ -33,6 +34,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3F11123421B2ECA80003C564 /* EditCostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCostVC.swift; sourceTree = "<group>"; };
 		3F1841892161499E001F6229 /* CostsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostsVC.swift; sourceTree = "<group>"; };
 		3F2FD0F92160E91200539CDB /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		3F2FD0FC2160E98100539CDB /* Plans+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Plans+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -80,6 +82,21 @@
 				9AC6942FB206A22F71A29D1C /* Pods_Bookkeeping.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3F11123221B2CD9C0003C564 /* Edit Cost View  */ = {
+			isa = PBXGroup;
+			children = (
+				3F11123421B2ECA80003C564 /* EditCostVC.swift */,
+			);
+			path = "Edit Cost View ";
+			sourceTree = "<group>";
+		};
+		3F11123321B2EAF30003C564 /* New Category Costs */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Category Costs";
 			sourceTree = "<group>";
 		};
 		3F2FD0F82160E87A00539CDB /* Core Data */ = {
@@ -132,6 +149,8 @@
 				3F1841892161499E001F6229 /* CostsVC.swift */,
 				3F5BD11621A968770086EBAD /* CostsTVC.swift */,
 				3F5BD11821A9B0FD0086EBAD /* CollectionCostsCVC.swift */,
+				3F11123321B2EAF30003C564 /* New Category Costs */,
+				3F11123221B2CD9C0003C564 /* Edit Cost View  */,
 			);
 			path = Costs;
 			sourceTree = "<group>";
@@ -326,6 +345,7 @@
 				3F2FD10C2160E98100539CDB /* New_income+CoreDataClass.swift in Sources */,
 				3F5BD11721A968770086EBAD /* CostsTVC.swift in Sources */,
 				3F4AF74E2157AF7B00DA745F /* Bookkeeping.xcdatamodeld in Sources */,
+				3F11123521B2ECA80003C564 /* EditCostVC.swift in Sources */,
 				3F2FD10A2160E98100539CDB /* Incomes+CoreDataClass.swift in Sources */,
 				3F5BD11921A9B0FD0086EBAD /* CollectionCostsCVC.swift in Sources */,
 				3F2FD10F2160E98100539CDB /* Costs+CoreDataProperties.swift in Sources */,

@@ -177,21 +177,27 @@ class CostsVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPi
     
     //MARK: Collection view
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return fetchDataCollectionCosts.count
+        return fetchDataCollectionCosts.count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionCell", for: indexPath) as! CollectionCostsCVC
         
-        cell.imageCategoryCost.image = UIImage(named: fetchDataCollectionCosts[indexPath.row].image_name!)
-        cell.nameCategoryCost.text = fetchDataCollectionCosts[indexPath.row].name
-        
+        if indexPath.row == fetchDataCollectionCosts.count {
+            cell.imageCategoryCost.image = UIImage(named: "PieChart")
+            cell.nameCategoryCost.text = "Новое"
+        } else {
+            cell.imageCategoryCost.image = UIImage(named: fetchDataCollectionCosts[indexPath.row].image_name!)
+            cell.nameCategoryCost.text = fetchDataCollectionCosts[indexPath.row].name
+        }
+         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        if costValueTF.text == "" || choiceInvoiceTF.text == ""{
+        if indexPath.row == fetchDataCollectionCosts.count {
+            self.performSegue(withIdentifier: "NewCategoryCosts", sender: nil)
+        } else if costValueTF.text == "" || choiceInvoiceTF.text == ""{
             alertController()
         } else {
             addNewCostInDataBase(index: indexPath)
@@ -284,6 +290,17 @@ class CostsVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPi
             let costDataDelete = fetchDataNewCost.object(at: indexPath)
             CoreDataSrack.instance.managedContext.delete(costDataDelete as! NSManagedObject)
             CoreDataSrack.instance.saveContext()
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.performSegue(withIdentifier: "EditCost", sender: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "editCosts" {
+            let sendIndexPathRow = segue.destination as! EditCostVC
+            sendIndexPathRow.indexPathEditCosts = (costsTV.indexPathForSelectedRow?.row)!
         }
     }
     
