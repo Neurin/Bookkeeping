@@ -11,7 +11,7 @@ import CoreData
 
 class EditCostVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, NSFetchedResultsControllerDelegate {
 
-    var indexPathEditCosts = Int()
+    var indexPathEditCosts = IndexPath()
     
     @IBOutlet weak var costValueTF: UITextField!
     @IBOutlet weak var choiceInvoiceTF: UITextField!
@@ -37,6 +37,9 @@ class EditCostVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, U
         choiceInvoiceTF.inputView = pikerView
         doneButtonToolBar()
         
+        let editCost = fetchDataCosts.object(at: indexPathEditCosts) as! New_cost
+        costValueTF.text = String(editCost.value)
+        choiceInvoiceTF.text = editCost.name_invoice
     }
     
     //MARK: Delegate
@@ -151,7 +154,6 @@ class EditCostVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, U
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        oneInvoice()
         return fetchDataInvoice.count
     }
     
@@ -162,15 +164,7 @@ class EditCostVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, U
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         choiceInvoiceTF.text = fetchDataInvoice[row].name
     }
-    
-    func oneInvoice() {
-        if fetchDataInvoice.count == 1 {
-            choiceInvoiceTF.text = fetchDataInvoice[0].name
-        } else {
-            choiceInvoiceTF.text = ""
-        }
-    }
-    
+        
     //MARK: Collection view
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return fetchDataCollectionCosts.count + 1
@@ -181,7 +175,7 @@ class EditCostVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, U
         
         if indexPath.row == fetchDataCollectionCosts.count {
             cell.imageCategoryCost.image = UIImage(named: "PieChart")
-            cell.nameCategoryCost.text = "Новое"
+            cell.nameCategoryCost.text = "All"
         } else {
             cell.imageCategoryCost.image = UIImage(named: fetchDataCollectionCosts[indexPath.row].image_name!)
             cell.nameCategoryCost.text = fetchDataCollectionCosts[indexPath.row].name
@@ -197,8 +191,6 @@ class EditCostVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, U
             alertController()
         } else {
             EditCostInDataBase(index: indexPath)
-            updateInvoice()
-            oneInvoice()
             costValueTF.text = ""
             
         }
@@ -214,17 +206,35 @@ class EditCostVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, U
     }
     
     func EditCostInDataBase(index: IndexPath) {
-        let newCost = New_cost(context: CoreDataSrack.instance.managedContext)
-        
-        newCost.value = Int32(costValueTF.text!)!
-        newCost.date = dateFormat(date: Date())
-        fetchDataCollectionCosts[index.row].addToNew_costs(newCost)
-        
-        CoreDataSrack.instance.saveContext()
+        let editCost = fetchDataCosts.object(at: indexPathEditCosts) as! New_cost
+       
+        if editCost.costs?.name != fetchDataCollectionCosts[index.row].name {
+            let changeCategoryCost = New_cost(context: CoreDataSrack.instance.managedContext)
+            changeCategoryCost.date = editCost.date
+            changeCategoryCost.value = Int32(costValueTF.text!)!
+            changeCategoryCost.name_invoice = choiceInvoiceTF.text
+            fetchDataCollectionCosts[index.row].addToNew_costs(changeCategoryCost)
+            updateInvoice()
+            CoreDataSrack.instance.managedContext.delete(editCost)
+            CoreDataSrack.instance.saveContext()
+        } else {
+            updateInvoice()
+            editCost.value = Int32(costValueTF.text!)!
+            editCost.name_invoice = choiceInvoiceTF.text
+            CoreDataSrack.instance.saveContext()
+        }
     }
     
     func updateInvoice() {
-        initFetchRequestInvoice()
+        let editCost = fetchDataCosts.object(at: indexPathEditCosts) as! New_cost
+        
+        for search in fetchDataInvoice {
+            if search.name == editCost.name_invoice {
+                search.setValue(search.value + editCost.value, forKey: "Invoice")
+                CoreDataSrack.instance.saveContext()
+            }
+        }
+        
         for search in fetchDataInvoice {
             if search.name == choiceInvoiceTF.text {
                 search.setValue(search.value - Int32(costValueTF.text!)!, forKey: "Invoice")
@@ -243,4 +253,7 @@ class EditCostVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, U
         return calendar.date(from: components)! as NSDate
     }
 
+    @IBAction func cancelTouchButton(_ sender: Any) {
+        navigationController?.popViewController(animated: true)
+    }
 }

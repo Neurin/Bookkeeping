@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		3F11123521B2ECA80003C564 /* EditCostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F11123421B2ECA80003C564 /* EditCostVC.swift */; };
 		3F18418A2161499E001F6229 /* CostsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1841892161499E001F6229 /* CostsVC.swift */; };
+		3F2AF20C21C14359000F2E6C /* EditCollectionCostsCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2AF20B21C14359000F2E6C /* EditCollectionCostsCVC.swift */; };
+		3F2AF20E21C14A65000F2E6C /* Заметки.metal in Sources */ = {isa = PBXBuildFile; fileRef = 3F2AF20D21C14A65000F2E6C /* Заметки.metal */; };
+		3F2AF21021C15304000F2E6C /* NewCategoryCosts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2AF20F21C15304000F2E6C /* NewCategoryCosts.swift */; };
+		3F2AF21221C15679000F2E6C /* NewCategoryCostsCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2AF21121C15679000F2E6C /* NewCategoryCostsCVC.swift */; };
 		3F2FD0FA2160E91200539CDB /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2FD0F92160E91200539CDB /* CoreDataStack.swift */; };
 		3F2FD1082160E98100539CDB /* Plans+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2FD0FC2160E98100539CDB /* Plans+CoreDataClass.swift */; };
 		3F2FD1092160E98100539CDB /* Plans+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2FD0FD2160E98100539CDB /* Plans+CoreDataProperties.swift */; };
@@ -36,6 +40,10 @@
 /* Begin PBXFileReference section */
 		3F11123421B2ECA80003C564 /* EditCostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCostVC.swift; sourceTree = "<group>"; };
 		3F1841892161499E001F6229 /* CostsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostsVC.swift; sourceTree = "<group>"; };
+		3F2AF20B21C14359000F2E6C /* EditCollectionCostsCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCollectionCostsCVC.swift; sourceTree = "<group>"; };
+		3F2AF20D21C14A65000F2E6C /* Заметки.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = "Заметки.metal"; sourceTree = "<group>"; };
+		3F2AF20F21C15304000F2E6C /* NewCategoryCosts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryCosts.swift; sourceTree = "<group>"; };
+		3F2AF21121C15679000F2E6C /* NewCategoryCostsCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryCostsCVC.swift; sourceTree = "<group>"; };
 		3F2FD0F92160E91200539CDB /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		3F2FD0FC2160E98100539CDB /* Plans+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Plans+CoreDataClass.swift"; sourceTree = "<group>"; };
 		3F2FD0FD2160E98100539CDB /* Plans+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Plans+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -88,6 +96,7 @@
 			isa = PBXGroup;
 			children = (
 				3F11123421B2ECA80003C564 /* EditCostVC.swift */,
+				3F2AF20B21C14359000F2E6C /* EditCollectionCostsCVC.swift */,
 			);
 			path = "Edit Cost View ";
 			sourceTree = "<group>";
@@ -95,6 +104,8 @@
 		3F11123321B2EAF30003C564 /* New Category Costs */ = {
 			isa = PBXGroup;
 			children = (
+				3F2AF20F21C15304000F2E6C /* NewCategoryCosts.swift */,
+				3F2AF21121C15679000F2E6C /* NewCategoryCostsCVC.swift */,
 			);
 			path = "New Category Costs";
 			sourceTree = "<group>";
@@ -139,6 +150,7 @@
 				3F4AF7492157AF7B00DA745F /* Bookkeeping.storyboard */,
 				3F4AF74F2157AF7C00DA745F /* Assets.xcassets */,
 				3F4AF7512157AF7C00DA745F /* LaunchScreen.storyboard */,
+				3F2AF20D21C14A65000F2E6C /* Заметки.metal */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -338,12 +350,15 @@
 				3F2FD10B2160E98100539CDB /* Incomes+CoreDataProperties.swift in Sources */,
 				3F2FD11A2160F98E00539CDB /* Invoice+CoreDataClass.swift in Sources */,
 				3F2FD10D2160E98100539CDB /* New_income+CoreDataProperties.swift in Sources */,
+				3F2AF21021C15304000F2E6C /* NewCategoryCosts.swift in Sources */,
 				3F2FD11B2160F98E00539CDB /* Invoice+CoreDataProperties.swift in Sources */,
+				3F2AF20C21C14359000F2E6C /* EditCollectionCostsCVC.swift in Sources */,
 				3F2FD1092160E98100539CDB /* Plans+CoreDataProperties.swift in Sources */,
 				3F2FD1112160E98100539CDB /* New_cost+CoreDataProperties.swift in Sources */,
 				3F2FD10E2160E98100539CDB /* Costs+CoreDataClass.swift in Sources */,
 				3F2FD10C2160E98100539CDB /* New_income+CoreDataClass.swift in Sources */,
 				3F5BD11721A968770086EBAD /* CostsTVC.swift in Sources */,
+				3F2AF20E21C14A65000F2E6C /* Заметки.metal in Sources */,
 				3F4AF74E2157AF7B00DA745F /* Bookkeeping.xcdatamodeld in Sources */,
 				3F11123521B2ECA80003C564 /* EditCostVC.swift in Sources */,
 				3F2FD10A2160E98100539CDB /* Incomes+CoreDataClass.swift in Sources */,
@@ -351,6 +366,7 @@
 				3F2FD10F2160E98100539CDB /* Costs+CoreDataProperties.swift in Sources */,
 				3F2FD1102160E98100539CDB /* New_cost+CoreDataClass.swift in Sources */,
 				3F4AF7462157AF7B00DA745F /* AppDelegate.swift in Sources */,
+				3F2AF21221C15679000F2E6C /* NewCategoryCostsCVC.swift in Sources */,
 				3F18418A2161499E001F6229 /* CostsVC.swift in Sources */,
 				3F2FD0FA2160E91200539CDB /* CoreDataStack.swift in Sources */,
 				3F2FD1082160E98100539CDB /* Plans+CoreDataClass.swift in Sources */,

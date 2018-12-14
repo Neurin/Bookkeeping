@@ -186,7 +186,7 @@ class CostsVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPi
         
         if indexPath.row == fetchDataCollectionCosts.count {
             cell.imageCategoryCost.image = UIImage(named: "PieChart")
-            cell.nameCategoryCost.text = "Новое"
+            cell.nameCategoryCost.text = "All"
         } else {
             cell.imageCategoryCost.image = UIImage(named: fetchDataCollectionCosts[indexPath.row].image_name!)
             cell.nameCategoryCost.text = fetchDataCollectionCosts[indexPath.row].name
@@ -223,6 +223,7 @@ class CostsVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPi
         let newCost = New_cost(context: CoreDataSrack.instance.managedContext)
         
         newCost.value = Int32(costValueTF.text!)!
+        newCost.name_invoice = choiceInvoiceTF.text
         newCost.date = dateFormat(date: Date())
         fetchDataCollectionCosts[index.row].addToNew_costs(newCost)
         
@@ -301,7 +302,7 @@ class CostsVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPi
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "editCosts" {
             let sendIndexPathRow = segue.destination as! EditCostVC
-            sendIndexPathRow.indexPathEditCosts = (costsTV.indexPathForSelectedRow?.row)!
+            sendIndexPathRow.indexPathEditCosts = (costsTV.indexPathForSelectedRow)!
         }
     }
     

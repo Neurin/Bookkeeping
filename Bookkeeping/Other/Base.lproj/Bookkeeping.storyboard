@@ -29,18 +29,18 @@
         <!--Редактирование-->
         <scene sceneID="FTO-c6-p12">
             <objects>
-                <viewController id="1nC-Qc-EUu" sceneMemberID="viewController">
+                <viewController id="1nC-Qc-EUu" customClass="EditCostVC" customModule="Bookkeeping" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="my8-PL-Pol">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="s4M-t0-pwj">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Введите сумму" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="s4M-t0-pwj">
                                 <rect key="frame" x="8" y="89" width="304" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="p25-Yb-Bcc">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Введите сумму" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="p25-Yb-Bcc">
                                 <rect key="frame" x="8" y="144" width="304" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -56,7 +56,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="EditCollectionCell" id="FY3-a5-nsB">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="EditCollectionCell" id="FY3-a5-nsB" customClass="EditCollectionCostsCVC" customModule="Bookkeeping" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -84,6 +84,10 @@
                                             <constraint firstAttribute="trailing" secondItem="ILe-aF-AST" secondAttribute="trailing" constant="5" id="loS-uy-o2v"/>
                                             <constraint firstItem="32W-dC-L1H" firstAttribute="leading" secondItem="FY3-a5-nsB" secondAttribute="leading" id="wD7-mR-4j0"/>
                                         </constraints>
+                                        <connections>
+                                            <outlet property="imageCategoryCost" destination="ILe-aF-AST" id="1dH-J5-aAh"/>
+                                            <outlet property="nameCategoryCost" destination="32W-dC-L1H" id="Pb8-Og-CVc"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
@@ -104,9 +108,16 @@
                         <viewLayoutGuide key="safeArea" id="4Rp-F4-45q"/>
                     </view>
                     <navigationItem key="navigationItem" title="Редактирование" id="wKX-lN-Lqc">
-                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="cancel" id="hSl-Pz-zcf"/>
+                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="cancel" id="hSl-Pz-zcf">
+                            <connections>
+                                <action selector="cancelTouchButton:" destination="1nC-Qc-EUu" id="dVY-db-5hm"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="choiceInvoiceTF" destination="p25-Yb-Bcc" id="6Vc-C2-4Bx"/>
+                        <outlet property="collectionCategory" destination="CsZ-H1-8dZ" id="ydL-gt-auU"/>
+                        <outlet property="costValueTF" destination="s4M-t0-pwj" id="h2w-Eh-a3s"/>
                         <segue destination="D8w-cW-4a2" kind="show" identifier="NewCategoryCostsOfEditCost" id="KPq-oi-MnW"/>
                     </connections>
                 </viewController>
@@ -114,10 +125,10 @@
             </objects>
             <point key="canvasLocation" x="-5079.375" y="3399.2957746478874"/>
         </scene>
-        <!--View Controller-->
+        <!--New Category Costs-->
         <scene sceneID="9ZQ-b4-FRe">
             <objects>
-                <viewController id="D8w-cW-4a2" sceneMemberID="viewController">
+                <viewController id="D8w-cW-4a2" customClass="NewCategoryCosts" customModule="Bookkeeping" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="g9B-Zy-t9m">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -138,13 +149,27 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="fwf-zu-5Mp">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="allCategoryCosts" id="fwf-zu-5Mp" customClass="NewCategoryCostsCVC" customModule="Bookkeeping" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                             <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gbn-gg-wW4">
+                                                    <rect key="frame" x="5" y="5" width="50" height="50"/>
+                                                </imageView>
+                                            </subviews>
                                         </view>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="gbn-gg-wW4" secondAttribute="trailing" constant="5" id="Aj3-de-zuB"/>
+                                            <constraint firstAttribute="bottom" secondItem="gbn-gg-wW4" secondAttribute="bottom" constant="5" id="I4K-oc-aSO"/>
+                                            <constraint firstItem="gbn-gg-wW4" firstAttribute="top" secondItem="fwf-zu-5Mp" secondAttribute="top" constant="5" id="IJ8-7t-UuY"/>
+                                            <constraint firstItem="gbn-gg-wW4" firstAttribute="leading" secondItem="fwf-zu-5Mp" secondAttribute="leading" constant="5" id="fZs-72-xB1"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="imageCategoryCost" destination="gbn-gg-wW4" id="jBN-CP-y16"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
@@ -161,10 +186,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="h6o-1N-LdJ"/>
                     </view>
+                    <connections>
+                        <outlet property="newNameCategoryCost" destination="alu-Ma-eej" id="5R3-pg-h06"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iNw-Tb-aty" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-5079" y="4404"/>
+            <point key="canvasLocation" x="-5079.375" y="4403.8732394366198"/>
         </scene>
         <!--Расходы-->
         <scene sceneID="jNm-2V-1Wt">
@@ -180,13 +208,13 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I7w-OV-XeA">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="710"/>
                                         <subviews>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Qmn-WT-h9m">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Введите сумму" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Qmn-WT-h9m">
                                                 <rect key="frame" x="8" y="25" width="304" height="30"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xbA-wB-5oK">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Введите сумму" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xbA-wB-5oK">
                                                 <rect key="frame" x="8" y="80" width="304" height="30"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
