@@ -28,28 +28,32 @@ class CostsVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPi
         super.viewDidLoad()
 
         delegate()
-        doneButtonToolBar()
-        
-        // узнать как оновлять viewDidLoad при открытии
+        closeKeyboard()
+    
         initFetchRequestInvoice()
         initFetchRequestNewCosts()
         initFetchRequestCollectionCosts()
         
+        sumLable.text = "Потрачено сегодня: 0"
+        
         costValueTF.keyboardType = UIKeyboardType.numberPad
         choiceInvoiceTF.inputView = pikerView
+        oneInvoice()
         
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateCategory), name: NSNotification.Name("ReloadDataCategoryCosts"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateDataInvoice), name: NSNotification.Name("ReloadDataInvoice"), object: nil)
     }
     
     //MARK: Delegate
     func delegate() {
         costValueTF.delegate = self
         choiceInvoiceTF.delegate = self
-        self.collectionCategory.delegate = self
-        self.collectionCategory.dataSource = self
+        collectionCategory.delegate = self
+        collectionCategory.dataSource = self
         pikerView.delegate = self
         pikerView.dataSource = self
-        
+        costsTV.delegate = self
+        costsTV.dataSource = self
     }
     
     //MARK: Fetch request
@@ -112,41 +116,29 @@ class CostsVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPi
     }
     
     //MARK: Text field
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        view.endEditing(true)
-        
-    }
-    
-    func doneButtonToolBar() {
-        
-        let toolBar = UIToolbar()
-        toolBar.sizeToFit()
-    
-        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
-        let doneButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(doneCliked))
-        
-        toolBar.setItems([flexSpace, doneButton], animated: false)
-        
-        costValueTF.inputAccessoryView = toolBar
-        choiceInvoiceTF.inputAccessoryView = toolBar
+    func closeKeyboard() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let maxLength = 7
-        let currentString: NSString = textField.text! as NSString
-        let newString: NSString = currentString.replacingCharacters(in: range, with: string) as NSString
-        return newString.length <= maxLength
+        if textField == costValueTF {
+            let maxLength = 7
+            let currentString: NSString = textField.text! as NSString
+            let newString: NSString = currentString.replacingCharacters(in: range, with: string) as NSString
+            
+            let set = NSCharacterSet(charactersIn: "0123456789").inverted
+            let checkString = string.components(separatedBy: set)
+            let numFilter = checkString.joined(separator: "")
+            
+            return (newString.length <= maxLength && string == numFilter)
+        } else {
+            return true
+        }
     }
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        
-        let allowedCharacters = CharacterSet.decimalDigits
-        let charactersSet = CharacterSet(charactersIn: string)
-        return allowedCharacters.isSuperset(of: charactersSet)
-    }
-    
-    @objc func doneCliked(){
+    @objc func dismissKeyboard(){
         view.endEditing(true)
     }
     
@@ -166,14 +158,23 @@ class CostsVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPi
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         choiceInvoiceTF.text = fetchDataInvoice[row].name
+        view.endEditing(true)
     }
     
     func oneInvoice() {
         if fetchDataInvoice.count == 1 {
             choiceInvoiceTF.text = fetchDataInvoice[0].name
+            choiceInvoiceTF.isUserInteractionEnabled = false
         } else {
             choiceInvoiceTF.text = ""
+            choiceInvoiceTF.isUserInteractionEnabled = true
         }
+    }
+    
+    @objc func updateDataInvoice() {
+        initFetchRequestInvoice()
+        pikerView.reloadAllComponents()
+        oneInvoice()
     }
     
     //MARK: Collection view
@@ -197,7 +198,7 @@ class CostsVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPi
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.row == fetchDataCollectionCosts.count {
-            self.performSegue(withIdentifier: "NewCategoryCosts", sender: nil)
+            self.performSegue(withIdentifier: "AllCategoryCosts", sender: nil)
         } else if costValueTF.text == "" || choiceInvoiceTF.text == ""{
             alertController()
         } else {
@@ -234,10 +235,15 @@ class CostsVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPi
         initFetchRequestInvoice()
         for search in fetchDataInvoice {
             if search.name == choiceInvoiceTF.text {
-                search.setValue(search.value - Int32(costValueTF.text!)!, forKey: "Invoice")
+                search.setValue(search.value - Int32(costValueTF.text!)!, forKey: "value")
                 CoreDataSrack.instance.saveContext()
             }
         }
+    }
+    
+    @objc func updateCategory() {
+        initFetchRequestCollectionCosts()
+        collectionCategory.reloadData()
     }
     
     // date formatter
@@ -275,22 +281,21 @@ class CostsVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPi
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        print("Чуть позже delete")
+        let costData = fetchDataNewCost.object(at: indexPath) as! New_cost
+        
         if editingStyle == .delete {
             initFetchRequestInvoice()
             for search in fetchDataInvoice {
-                if search.name == choiceInvoiceTF.text {
-                    search.setValue(search.value - Int32(costValueTF.text!)!, forKey: "Invoice")
+                if search.name == costData.name_invoice {
+                    search.setValue(search.value + costData.value, forKey: "value")
                     CoreDataSrack.instance.saveContext()
                 }
             }
-            
-            let costData = fetchDataNewCost.object(at: indexPath) as! New_cost
+
             sumValueCosts -= costData.value
             sumLable.text = "Потрачено сегодня: \(String(sumValueCosts))"
             
-            let costDataDelete = fetchDataNewCost.object(at: indexPath)
-            CoreDataSrack.instance.managedContext.delete(costDataDelete as! NSManagedObject)
+            CoreDataSrack.instance.managedContext.delete(costData)
             CoreDataSrack.instance.saveContext()
         }
     }
@@ -300,9 +305,9 @@ class CostsVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPi
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "editCosts" {
+        if segue.identifier == "EditCost" {
             let sendIndexPathRow = segue.destination as! EditCostVC
-            sendIndexPathRow.indexPathEditCosts = (costsTV.indexPathForSelectedRow)!
+            sendIndexPathRow.indexPathEditCosts = costsTV.indexPathForSelectedRow!
         }
     }
     

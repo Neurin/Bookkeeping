@@ -20,8 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         CreateCategory.instance.createCategoryCosts()
-        CreateCategory.instance.createCategoryIncomes()
         CreateCategory.instance.createInvoice()
+        CreateCategory.instance.createIconeList()
+        CreateCategory.instance.createIconeCosts()
         
         let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         print(urls[urls.count-1] as URL)

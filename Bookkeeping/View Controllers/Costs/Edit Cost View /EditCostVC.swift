@@ -35,7 +35,8 @@ class EditCostVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, U
         
         costValueTF.keyboardType = UIKeyboardType.numberPad
         choiceInvoiceTF.inputView = pikerView
-        doneButtonToolBar()
+        closeKeyboard()
+        oneInvoice()
         
         let editCost = fetchDataCosts.object(at: indexPathEditCosts) as! New_cost
         costValueTF.text = String(editCost.value)
@@ -113,38 +114,30 @@ class EditCostVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, U
     }
     
     //MARK: Text field
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        view.endEditing(true)
+    func closeKeyboard() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
     }
-    
-    func doneButtonToolBar() {
-        let toolBar = UIToolbar()
-        toolBar.sizeToFit()
-        
-        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
-        let doneButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(doneCliked))
-        
-        toolBar.setItems([flexSpace, doneButton], animated: false)
-        
-        costValueTF.inputAccessoryView = toolBar
-        choiceInvoiceTF.inputAccessoryView = toolBar
-    }
+
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let maxLength = 7
-        let currentString: NSString = textField.text! as NSString
-        let newString: NSString = currentString.replacingCharacters(in: range, with: string) as NSString
-        return newString.length <= maxLength
+        if textField == costValueTF {
+            let maxLength = 7
+            let currentString: NSString = textField.text! as NSString
+            let newString: NSString = currentString.replacingCharacters(in: range, with: string) as NSString
+            
+            let set = NSCharacterSet(charactersIn: "0123456789").inverted
+            let checkString = string.components(separatedBy: set)
+            let numFilter = checkString.joined(separator: "")
+            
+            return (newString.length <= maxLength && string == numFilter)
+        } else {
+            return true
+        }
     }
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        
-        let allowedCharacters = CharacterSet.decimalDigits
-        let charactersSet = CharacterSet(charactersIn: string)
-        return allowedCharacters.isSuperset(of: charactersSet)
-    }
-    
-    @objc func doneCliked(){
+    @objc func dismissKeyboard(){
         view.endEditing(true)
     }
     
@@ -164,14 +157,24 @@ class EditCostVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, U
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         choiceInvoiceTF.text = fetchDataInvoice[row].name
     }
-        
+    
+    func oneInvoice() {
+        if fetchDataInvoice.count == 1 {
+            choiceInvoiceTF.text = fetchDataInvoice[0].name
+            choiceInvoiceTF.isUserInteractionEnabled = false
+        } else {
+            choiceInvoiceTF.text = ""
+            choiceInvoiceTF.isUserInteractionEnabled = true
+        }
+    }
+    
     //MARK: Collection view
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return fetchDataCollectionCosts.count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EditCollectionCell", for: indexPath) as! CollectionCostsCVC
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EditCollectionCell", for: indexPath) as! EditCostsCVC
         
         if indexPath.row == fetchDataCollectionCosts.count {
             cell.imageCategoryCost.image = UIImage(named: "PieChart")
@@ -186,7 +189,7 @@ class EditCostVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, U
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.row == fetchDataCollectionCosts.count {
-            self.performSegue(withIdentifier: "NewCategoryCostsOfEditCost", sender: nil)
+            self.performSegue(withIdentifier: "AllCategoryCostsOfEditCost", sender: nil)
         } else if costValueTF.text == "" || choiceInvoiceTF.text == ""{
             alertController()
         } else {
@@ -210,6 +213,7 @@ class EditCostVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, U
        
         if editCost.costs?.name != fetchDataCollectionCosts[index.row].name {
             let changeCategoryCost = New_cost(context: CoreDataSrack.instance.managedContext)
+            
             changeCategoryCost.date = editCost.date
             changeCategoryCost.value = Int32(costValueTF.text!)!
             changeCategoryCost.name_invoice = choiceInvoiceTF.text
@@ -217,11 +221,15 @@ class EditCostVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, U
             updateInvoice()
             CoreDataSrack.instance.managedContext.delete(editCost)
             CoreDataSrack.instance.saveContext()
+            
+            navigationController?.popViewController(animated: true)
         } else {
             updateInvoice()
             editCost.value = Int32(costValueTF.text!)!
             editCost.name_invoice = choiceInvoiceTF.text
             CoreDataSrack.instance.saveContext()
+            
+            navigationController?.popViewController(animated: true)
         }
     }
     
@@ -230,14 +238,14 @@ class EditCostVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, U
         
         for search in fetchDataInvoice {
             if search.name == editCost.name_invoice {
-                search.setValue(search.value + editCost.value, forKey: "Invoice")
+                search.setValue(search.value + editCost.value, forKey: "value")
                 CoreDataSrack.instance.saveContext()
             }
         }
         
         for search in fetchDataInvoice {
             if search.name == choiceInvoiceTF.text {
-                search.setValue(search.value - Int32(costValueTF.text!)!, forKey: "Invoice")
+                search.setValue(search.value - Int32(costValueTF.text!)!, forKey: "value")
                 CoreDataSrack.instance.saveContext()
             }
         }
@@ -251,9 +259,5 @@ class EditCostVC: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, U
         components.timeZone = TimeZone(abbreviation: "GMT")
         
         return calendar.date(from: components)! as NSDate
-    }
-
-    @IBAction func cancelTouchButton(_ sender: Any) {
-        navigationController?.popViewController(animated: true)
     }
 }

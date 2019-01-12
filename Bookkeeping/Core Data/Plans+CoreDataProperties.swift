@@ -2,8 +2,8 @@
 //  Plans+CoreDataProperties.swift
 //  Bookkeeping
 //
-//  Created by Name on 29.11.2018.
-//  Copyright © 2018 Name. All rights reserved.
+//  Created by Name on 09.01.2019.
+//  Copyright © 2019 Name. All rights reserved.
 //
 //
 
@@ -20,7 +20,6 @@ extension Plans {
     @NSManaged public var date: NSDate?
     @NSManaged public var info: String?
     @NSManaged public var name: String?
-    @NSManaged public var type: Bool
     @NSManaged public var value: Int32
 
 }

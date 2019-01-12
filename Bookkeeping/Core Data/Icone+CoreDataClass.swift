@@ -1,5 +1,5 @@
 //
-//  Invoice+CoreDataClass.swift
+//  Icone+CoreDataClass.swift
 //  Bookkeeping
 //
 //  Created by Name on 15.12.2018.
@@ -10,7 +10,7 @@
 import Foundation
 import CoreData
 
-@objc(Invoice)
-public class Invoice: NSManagedObject {
+@objc(Icone)
+public class Icone: NSManagedObject {
 
 }

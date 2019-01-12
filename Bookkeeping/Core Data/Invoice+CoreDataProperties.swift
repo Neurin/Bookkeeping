@@ -2,7 +2,7 @@
 //  Invoice+CoreDataProperties.swift
 //  Bookkeeping
 //
-//  Created by Name on 29.11.2018.
+//  Created by Name on 15.12.2018.
 //  Copyright © 2018 Name. All rights reserved.
 //
 //
